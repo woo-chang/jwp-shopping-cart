@@ -2,21 +2,26 @@ package cart.dto.response;
 
 import cart.entity.CategoryEntity;
 import cart.entity.product.ProductEntity;
+
 import java.util.List;
 
 public class ProductResponseDto {
 
     private final Long id;
-
     private final String name;
     private final String imageUrl;
     private final Integer price;
     private final String description;
     private final List<CategoryResponseDto> categoryResponseDtos;
 
-    private ProductResponseDto(final Long id, final String name, final String imageUrl, final Integer price,
-        final String description,
-        final List<CategoryResponseDto> categoryResponseDtos) {
+    private ProductResponseDto(
+            final Long id,
+            final String name,
+            final String imageUrl,
+            final Integer price,
+            final String description,
+            final List<CategoryResponseDto> categoryResponseDtos
+    ) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -25,15 +30,14 @@ public class ProductResponseDto {
         this.categoryResponseDtos = categoryResponseDtos;
     }
 
-    public static ProductResponseDto of(final ProductEntity productEntity,
-        final List<CategoryEntity> categoryEntities) {
+    public static ProductResponseDto of(final ProductEntity productEntity, final List<CategoryEntity> categoryEntities) {
         return new ProductResponseDto(
-            productEntity.getId(),
-            productEntity.getName(),
-            productEntity.getImageUrl(),
-            productEntity.getPrice(),
-            productEntity.getDescription(),
-            CategoryResponseDto.listOf(categoryEntities)
+                productEntity.getId(),
+                productEntity.getName(),
+                productEntity.getImageUrl(),
+                productEntity.getPrice(),
+                productEntity.getDescription(),
+                CategoryResponseDto.listOf(categoryEntities)
         );
     }
 

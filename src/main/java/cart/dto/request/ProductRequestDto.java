@@ -10,8 +10,13 @@ public class ProductRequestDto {
     private final String description;
     private final List<Long> categoryIds;
 
-    public ProductRequestDto(final String name, final String imageUrl, final Integer price, final String description,
-        final List<Long> categoryIds) {
+    public ProductRequestDto(
+            final String name,
+            final String imageUrl,
+            final Integer price,
+            final String description,
+            final List<Long> categoryIds
+    ) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.price = price;

@@ -1,10 +1,11 @@
 package cart.dao;
 
 import cart.entity.CategoryEntity;
-import java.util.Collections;
-import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class CategoryDao {
@@ -20,9 +21,9 @@ public class CategoryDao {
         final String sql = String.format("SELECT id, name FROM category WHERE id IN (%s)", inSql);
 
         return jdbcTemplate.query(
-            sql,
-            (rs, rowNum) -> new CategoryEntity(rs.getLong("id"), rs.getString("name")),
-            categoryIds.toArray()
+                sql,
+                (rs, rowNum) -> new CategoryEntity(rs.getLong("id"), rs.getString("name")),
+                categoryIds.toArray()
         );
     }
 }

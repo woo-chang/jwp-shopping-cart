@@ -3,7 +3,7 @@ package cart.entity.product;
 class Price {
 
     private static final int MIN_PRICE = 0;
-    
+
     private final Integer value;
 
     public Price(final Integer value) {
