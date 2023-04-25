@@ -55,7 +55,7 @@ class ProductCategoryDaoTest {
         @Test
         @DisplayName("상품 ID가 null 일 경우 오류를 던진다.")
         void findAllWithNullProductId() {
-            assertThatThrownBy(() -> productCategoryDao.findAll(null))
+            assertThatThrownBy(() -> productCategoryDao.findAllByProductId(null))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -75,7 +75,7 @@ class ProductCategoryDaoTest {
             productCategoryDao.save(productCategoryEntity);
 
             //when
-            final List<ProductCategoryEntity> productCategoryEntities = productCategoryDao.findAll(savedProductId);
+            final List<ProductCategoryEntity> productCategoryEntities = productCategoryDao.findAllByProductId(savedProductId);
 
             //then
             assertThat(productCategoryEntities).hasSize(1);
@@ -98,10 +98,10 @@ class ProductCategoryDaoTest {
         final Long savedProductCategoryId = productCategoryDao.save(productCategoryEntity);
 
         //when
-        productCategoryDao.delete(savedProductCategoryId);
+        productCategoryDao.deleteById(savedProductCategoryId);
 
         //then
-        final List<ProductCategoryEntity> productCategoryEntities = productCategoryDao.findAll(savedProductId);
+        final List<ProductCategoryEntity> productCategoryEntities = productCategoryDao.findAllByProductId(savedProductId);
         assertThat(productCategoryEntities).hasSize(0);
     }
 }

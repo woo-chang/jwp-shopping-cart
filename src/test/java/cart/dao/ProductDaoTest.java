@@ -88,7 +88,7 @@ class ProductDaoTest {
         final Long savedFirstProductId = productDao.save(firstProductEntity);
 
         //when
-        final ProductEntity findProductEntity = productDao.findById(savedFirstProductId);
+        final ProductEntity findProductEntity = productDao.findById(savedFirstProductId).get();
 
         //then
         assertAll(
@@ -110,7 +110,7 @@ class ProductDaoTest {
             //given
             //when
             //then
-            assertThatThrownBy(() -> productDao.delete(null))
+            assertThatThrownBy(() -> productDao.deleteById(null))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -128,7 +128,7 @@ class ProductDaoTest {
             final Long savedProductId = productDao.save(productEntity);
 
             //when
-            productDao.delete(savedProductId);
+            productDao.deleteById(savedProductId);
 
             //then
             assertThat(productDao.findAll()).hasSize(0);
@@ -161,12 +161,12 @@ class ProductDaoTest {
                     "다즐짱"
             );
             final Long savedProductId = productDao.save(productEntity);
-            final ProductEntity findProductEntity = productDao.findById(savedProductId);
+            final ProductEntity findProductEntity = productDao.findById(savedProductId).get();
             findProductEntity.update("name", "imageUrl", 1000, "description");
 
             //when
             productDao.update(findProductEntity);
-            final ProductEntity updatedProductEntity = productDao.findById(findProductEntity.getId());
+            final ProductEntity updatedProductEntity = productDao.findById(findProductEntity.getId()).get();
 
             //then
             assertAll(

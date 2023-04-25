@@ -28,10 +28,11 @@ public class ProductCategoryDao {
         return simpleJdbcInsert.executeAndReturnKey(sqlParameterSource).longValue();
     }
 
-    public List<ProductCategoryEntity> findAll(final Long productId) {
+    public List<ProductCategoryEntity> findAllByProductId(final Long productId) {
         if (productId == null) {
             throw new IllegalArgumentException("상품 ID는 null일 수 없습니다.");
         }
+
         final String sql = "SELECT * FROM product_category WHERE product_id = ?";
         return jdbcTemplate.query(
                 sql,
@@ -43,10 +44,11 @@ public class ProductCategoryDao {
         );
     }
 
-    public void delete(final Long id) {
+    public void deleteById(final Long id) {
         if (id == null) {
             throw new IllegalArgumentException("ID값이 null일 수 없습니다.");
         }
+
         final String sql = "DELETE FROM product_category WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }

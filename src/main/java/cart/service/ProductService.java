@@ -8,6 +8,7 @@ import cart.dto.response.ProductResponseDto;
 import cart.entity.CategoryEntity;
 import cart.entity.ProductCategoryEntity;
 import cart.entity.product.ProductEntity;
+import cart.mapper.ProductEntityMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,12 +32,7 @@ public class ProductService {
     }
 
     public Long register(final ProductDto productDto) {
-        final ProductEntity productEntity = new ProductEntity(
-                productDto.getName(),
-                productDto.getImageUrl(),
-                productDto.getPrice(),
-                productDto.getDescription()
-        );
+        final ProductEntity productEntity = ProductEntityMapper.from(productDto);
         final Long savedProductId = productDao.save(productEntity);
         for (final Long categoryId : productDto.getCategoryIds()) {
             productCategoryDao.save(new ProductCategoryEntity(savedProductId, categoryId));
@@ -55,34 +51,42 @@ public class ProductService {
     }
 
     private List<Long> getCategoryIds(final ProductEntity productEntity) {
-        return productCategoryDao.findAll(productEntity.getId())
+        return productCategoryDao.findAllByProductId(productEntity.getId())
                 .stream()
                 .map(ProductCategoryEntity::getCategoryId)
                 .collect(Collectors.toList());
     }
 
     public void update(final Long id, final ProductDto productDto) {
-        final ProductEntity productEntity = new ProductEntity(
-                id,
+        final ProductEntity productEntity = findProductEntity(id);
+        productEntity.update(
                 productDto.getName(),
                 productDto.getImageUrl(),
                 productDto.getPrice(),
                 productDto.getDescription()
         );
         productDao.update(productEntity);
-        for (ProductCategoryEntity productCategoryEntity : productCategoryDao.findAll(id)) {
-            productCategoryDao.delete(productCategoryEntity.getId());
+
+        for (final ProductCategoryEntity productCategoryEntity : productCategoryDao.findAllByProductId(id)) {
+            productCategoryDao.deleteById(productCategoryEntity.getId());
         }
+
         for (final Long categoryId : productDto.getCategoryIds()) {
             productCategoryDao.save(new ProductCategoryEntity(id, categoryId));
         }
     }
 
+    private ProductEntity findProductEntity(Long id) {
+        return productDao.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품 ID를 입력하였습니다."));
+    }
+
     public void delete(final Long id) {
-        final List<ProductCategoryEntity> productCategoryEntities = productCategoryDao.findAll(id);
+        final ProductEntity productEntity = findProductEntity(id);
+        final List<ProductCategoryEntity> productCategoryEntities = productCategoryDao.findAllByProductId(productEntity.getId());
         for (ProductCategoryEntity productCategoryEntity : productCategoryEntities) {
-            productCategoryDao.delete(productCategoryEntity.getId());
+            productCategoryDao.deleteById(productCategoryEntity.getId());
         }
-        productDao.delete(id);
+        productDao.deleteById(productEntity.getId());
     }
 }
