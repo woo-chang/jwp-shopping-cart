@@ -9,11 +9,11 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class ProductController {
+public class ProductViewController {
 
     private final ProductService productService;
 
-    public ProductController(final ProductService productService) {
+    public ProductViewController(final ProductService productService) {
         this.productService = productService;
     }
 
