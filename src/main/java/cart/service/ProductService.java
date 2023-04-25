@@ -3,7 +3,7 @@ package cart.service;
 import cart.dao.CategoryDao;
 import cart.dao.ProductCategoryDao;
 import cart.dao.ProductDao;
-import cart.dto.request.ProductRequestDto;
+import cart.dto.ProductDto;
 import cart.dto.response.ProductResponseDto;
 import cart.entity.CategoryEntity;
 import cart.entity.ProductCategoryEntity;
@@ -30,15 +30,15 @@ public class ProductService {
         this.productCategoryDao = productCategoryDao;
     }
 
-    public Long register(final ProductRequestDto productRequestDto) {
+    public Long register(final ProductDto productDto) {
         final ProductEntity productEntity = new ProductEntity(
-                productRequestDto.getName(),
-                productRequestDto.getImageUrl(),
-                productRequestDto.getPrice(),
-                productRequestDto.getDescription()
+                productDto.getName(),
+                productDto.getImageUrl(),
+                productDto.getPrice(),
+                productDto.getDescription()
         );
         final Long savedProductId = productDao.save(productEntity);
-        for (final Long categoryId : productRequestDto.getCategoryIds()) {
+        for (final Long categoryId : productDto.getCategoryIds()) {
             productCategoryDao.save(new ProductCategoryEntity(savedProductId, categoryId));
         }
         return savedProductId;
@@ -61,19 +61,19 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public void update(final Long id, final ProductRequestDto productRequestDto) {
+    public void update(final Long id, final ProductDto productDto) {
         final ProductEntity productEntity = new ProductEntity(
                 id,
-                productRequestDto.getName(),
-                productRequestDto.getImageUrl(),
-                productRequestDto.getPrice(),
-                productRequestDto.getDescription()
+                productDto.getName(),
+                productDto.getImageUrl(),
+                productDto.getPrice(),
+                productDto.getDescription()
         );
         productDao.update(productEntity);
         for (ProductCategoryEntity productCategoryEntity : productCategoryDao.findAll(id)) {
             productCategoryDao.delete(productCategoryEntity.getId());
         }
-        for (final Long categoryId : productRequestDto.getCategoryIds()) {
+        for (final Long categoryId : productDto.getCategoryIds()) {
             productCategoryDao.save(new ProductCategoryEntity(id, categoryId));
         }
     }

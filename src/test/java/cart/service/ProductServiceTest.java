@@ -1,5 +1,6 @@
 package cart.service;
 
+import cart.dto.ProductDto;
 import cart.dto.request.ProductRequestDto;
 import cart.dto.response.ProductResponseDto;
 import org.assertj.core.api.Assertions;
@@ -26,7 +27,7 @@ class ProductServiceTest {
     void findProducts() {
         //given
         final Long id = productService.register(
-                new ProductRequestDto("name", "imageUrl", 1000, "description", List.of(1L, 2L))
+                new ProductDto("name", "imageUrl", 1000, "description", List.of(1L, 2L))
         );
 
         //when
@@ -52,11 +53,11 @@ class ProductServiceTest {
     void update() {
         //given
         final Long id = productService.register(
-                new ProductRequestDto("name", "imageUrl", 1000, "description", List.of(1L, 2L))
+                new ProductDto("name", "imageUrl", 1000, "description", List.of(1L, 2L))
         );
 
         //when
-        productService.update(id, new ProductRequestDto("name2", "imageUrl2", 2000, "description2", List.of(3L, 4L)));
+        productService.update(id, new ProductDto("name2", "imageUrl2", 2000, "description2", List.of(3L, 4L)));
 
         //then
         final List<ProductResponseDto> productResponseDtos = productService.findProducts();
@@ -80,7 +81,7 @@ class ProductServiceTest {
     void delete() {
         //given
         final Long id = productService.register(
-                new ProductRequestDto("name", "imageUrl", 1000, "description", List.of(1L, 2L))
+                new ProductDto("name", "imageUrl", 1000, "description", List.of(1L, 2L))
         );
 
         //when

@@ -2,6 +2,7 @@ package cart.controller;
 
 import cart.dto.request.ProductRequestDto;
 import cart.dto.response.ProductResponseDto;
+import cart.mapper.ProductDtoMapper;
 import cart.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ProductApiController {
     //CREATE
     @PostMapping("/products")
     public ResponseEntity<Void> registerProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
-        final Long productId = productService.register(productRequestDto);
+        final Long productId = productService.register(ProductDtoMapper.from(productRequestDto));
 
         return ResponseEntity.created(URI.create("/products/" + productId)).build();
     }
@@ -38,7 +39,7 @@ public class ProductApiController {
     //UPDATE
     @PutMapping("/products/{id}")
     public ResponseEntity<Void> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequestDto productRequestDto) {
-        productService.update(id, productRequestDto);
+        productService.update(id, ProductDtoMapper.from(productRequestDto));
 
         return ResponseEntity.ok().build();
     }
