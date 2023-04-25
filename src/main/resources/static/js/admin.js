@@ -30,9 +30,14 @@ form.addEventListener('submit', (event) => {
 
     const formData = new FormData(event.target);
     let product = {};
+    product['categoryIds'] = []
     for (const entry of formData.entries()) {
         const [key, value] = entry;
-        product[key] = value;
+        if (key === 'categoryIds') {
+            product[key] = [...product[key], value]
+        } else {
+            product[key] = value;
+        }
     }
 
     if (modal.dataset.formType === 'edit') {

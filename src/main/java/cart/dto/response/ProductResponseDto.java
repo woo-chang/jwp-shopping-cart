@@ -4,6 +4,7 @@ import cart.entity.CategoryEntity;
 import cart.entity.product.ProductEntity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductResponseDto {
 
@@ -12,7 +13,7 @@ public class ProductResponseDto {
     private final String imageUrl;
     private final Integer price;
     private final String description;
-    private final List<CategoryResponseDto> categoryResponseDtos;
+    private final List<String> categoryNames;
 
     private ProductResponseDto(
             final Long id,
@@ -20,14 +21,14 @@ public class ProductResponseDto {
             final String imageUrl,
             final Integer price,
             final String description,
-            final List<CategoryResponseDto> categoryResponseDtos
+            final List<String> categoryNames
     ) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.price = price;
         this.description = description;
-        this.categoryResponseDtos = categoryResponseDtos;
+        this.categoryNames = categoryNames;
     }
 
     public static ProductResponseDto of(final ProductEntity productEntity, final List<CategoryEntity> categoryEntities) {
@@ -37,8 +38,14 @@ public class ProductResponseDto {
                 productEntity.getImageUrl(),
                 productEntity.getPrice(),
                 productEntity.getDescription(),
-                CategoryResponseDto.listOf(categoryEntities)
+                getCategoryNames(categoryEntities)
         );
+    }
+
+    private static List<String> getCategoryNames(final List<CategoryEntity> categoryEntities) {
+        return categoryEntities.stream()
+                .map(CategoryEntity::getName)
+                .collect(Collectors.toList());
     }
 
     public Long getId() {
@@ -61,7 +68,7 @@ public class ProductResponseDto {
         return description;
     }
 
-    public List<CategoryResponseDto> getCategoryResponseDtos() {
-        return categoryResponseDtos;
+    public List<String> getCategoryNames() {
+        return categoryNames;
     }
 }

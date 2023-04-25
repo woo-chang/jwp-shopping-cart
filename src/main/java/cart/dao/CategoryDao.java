@@ -26,4 +26,13 @@ public class CategoryDao {
                 categoryIds.toArray()
         );
     }
+
+    public List<CategoryEntity> findAll() {
+        final String sql = "SELECT id, name FROM category";
+
+        return jdbcTemplate.query(
+                sql,
+                (rs, rowNum) -> new CategoryEntity(rs.getLong("id"), rs.getString("name"))
+        );
+    }
 }

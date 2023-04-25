@@ -29,6 +29,8 @@
             <th>이름</th>
             <th>가격</th>
             <th>이미지</th>
+            <th>설명</th>
+            <th>카테고리</th>
             <th>Actions</th>
         </tr>
         <tbody id="product-list">
@@ -38,8 +40,10 @@
             <td th:text="${product.name}"></td> <!-- 상품 이름 -->
             <td th:text="${product.price}"></td> <!-- 상품 가격 -->
             <td>
-                <img style="max-width: 100px;" th:text="${product.imageUrl}"> <!-- 상품 이미지 -->
+                <img style="max-width: 100px;" th:src="${product.imageUrl}"> <!-- 상품 이미지 -->
             </td>
+            <td th:text="${product.description}"></td> <!-- 상품 설명 -->
+            <td th:text="${product.categoryNames}"></td> <!-- 카테고 -->
             <td>
                 <button th:onclick="showEditModal([[${product}]])">수정</button>
                 <button th:onclick="deleteProduct([[${product.id}]])">삭제</button>
@@ -65,8 +69,13 @@
                 <label for="description">설명</label><br>
                 <input type="text" id="description" name="description" required><br>
 
-                <label for="categoryIds">설명</label><br>
-                <input type="text" id="categoryIds" name="categoryIds" required><br>
+                <h4>카테고리 (다중 선택 가능)</h4>
+                <div th:each="category : ${categories}" class="form-check">
+                    <input type="checkbox" id="categoryIds" name="categoryIds" class="form-check-input"
+                           th:value="${category.id}">
+                    <label for="categoryIds" class="form-check-lable" th:text="${category.name}"
+                           style="display: inline-block;"></label>
+                </div>
 
                 <button type="submit">제출</button>
             </form>

@@ -4,6 +4,7 @@ import cart.dao.CategoryDao;
 import cart.dao.ProductCategoryDao;
 import cart.dao.ProductDao;
 import cart.dto.ProductDto;
+import cart.dto.response.CategoryResponseDto;
 import cart.dto.response.ProductResponseDto;
 import cart.entity.CategoryEntity;
 import cart.entity.ProductCategoryEntity;
@@ -88,5 +89,11 @@ public class ProductService {
             productCategoryDao.deleteById(productCategoryEntity.getId());
         }
         productDao.deleteById(productEntity.getId());
+    }
+
+    public List<CategoryResponseDto> findCategories() {
+        return categoryDao.findAll().stream()
+                .map(CategoryResponseDto::from)
+                .collect(Collectors.toList());
     }
 }
