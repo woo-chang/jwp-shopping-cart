@@ -1,7 +1,6 @@
 package cart.service;
 
 import cart.dto.ProductDto;
-import cart.dto.request.ProductRequestDto;
 import cart.dto.response.ProductResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -42,9 +41,9 @@ class ProductServiceTest {
                 () -> assertThat(productResponseDto.getImageUrl()).isEqualTo("imageUrl"),
                 () -> assertThat(productResponseDto.getPrice()).isEqualTo(1000),
                 () -> assertThat(productResponseDto.getDescription()).isEqualTo("description"),
-                () -> assertThat(productResponseDto.getCategoryResponseDtos()).hasSize(2),
-                () -> assertThat(productResponseDto.getCategoryResponseDtos().get(0).getId()).isEqualTo(1L),
-                () -> assertThat(productResponseDto.getCategoryResponseDtos().get(1).getId()).isEqualTo(2L)
+                () -> assertThat(productResponseDto.getCategoryNames()).hasSize(2),
+                () -> assertThat(productResponseDto.getCategoryNames().get(0)).isEqualTo("카페"),
+                () -> assertThat(productResponseDto.getCategoryNames().get(1)).isEqualTo("한식")
         );
     }
 
@@ -70,9 +69,9 @@ class ProductServiceTest {
                 () -> assertThat(productResponseDto.getImageUrl()).isEqualTo("imageUrl2"),
                 () -> assertThat(productResponseDto.getPrice()).isEqualTo(2000),
                 () -> assertThat(productResponseDto.getDescription()).isEqualTo("description2"),
-                () -> assertThat(productResponseDto.getCategoryResponseDtos()).hasSize(2),
-                () -> assertThat(productResponseDto.getCategoryResponseDtos().get(0).getId()).isEqualTo(3L),
-                () -> assertThat(productResponseDto.getCategoryResponseDtos().get(1).getId()).isEqualTo(4L)
+                () -> assertThat(productResponseDto.getCategoryNames()).hasSize(2),
+                () -> assertThat(productResponseDto.getCategoryNames().get(0)).isEqualTo("양식"),
+                () -> assertThat(productResponseDto.getCategoryNames().get(1)).isEqualTo("일식")
         );
     }
 
