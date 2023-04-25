@@ -8,7 +8,6 @@ public class ProductRequestDto {
 
     @Size(min = 1, max = 50, message = "상품명은 {min}보다 크고 {max}보다 짧아야 합니다.")
     private final String name;
-    @Size(min = 1, max = 255, message = "이미지 경로는 {min}보다 크고 {max}보다 짧아야 합니다.")
     private final String imageUrl;
     @PositiveOrZero(message = "상품 가격은 0보다 작을 수 없습니다.")
     private final Integer price;
