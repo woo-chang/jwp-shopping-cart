@@ -5,11 +5,16 @@ const showAddModal = () => {
     modal.style.display = 'block';
 };
 
-const showEditModal = (product) => {
+const showEditModal = (product, categories) => {
     console.log(product)
+    console.log(categories)
     const elements = modal.getElementsByTagName('input');
     for (const element of elements) {
-        element.value = product[element.getAttribute('name')];
+        if (element.id.includes("categoryIds")) {
+            element.value = categories[element.id.charAt(element.id.length - 1) - 1].id;
+        } else {
+            element.value = product[element.getAttribute('name')];
+        }
         console.log(element)
     }
     modal.dataset.formType = 'edit';
