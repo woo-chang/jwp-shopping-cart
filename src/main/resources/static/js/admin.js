@@ -6,9 +6,11 @@ const showAddModal = () => {
 };
 
 const showEditModal = (product) => {
+    console.log(product)
     const elements = modal.getElementsByTagName('input');
     for (const element of elements) {
         element.value = product[element.getAttribute('name')];
+        console.log(element)
     }
     modal.dataset.formType = 'edit';
     modal.dataset.productId = product.id;
@@ -30,14 +32,9 @@ form.addEventListener('submit', (event) => {
 
     const formData = new FormData(event.target);
     let product = {};
-    product['categoryIds'] = []
     for (const entry of formData.entries()) {
         const [key, value] = entry;
-        if (key === 'categoryIds') {
-            product[key] = [...product[key], value]
-        } else {
-            product[key] = value;
-        }
+        product[key] = value;
     }
 
     if (modal.dataset.formType === 'edit') {
@@ -51,8 +48,7 @@ form.addEventListener('submit', (event) => {
 
 // TODO: [1단계] 상품 관리 CRUD API에 맞게 변경
 const createProduct = (product) => {
-    const {name, imageUrl, price, description, categoryIds} = product;
-
+    const {name, imageUrl, price, description, ...categoryIds} = product;
     axios.request({
         url: 'http://localhost:8080/products',
         method: 'post',
@@ -61,7 +57,7 @@ const createProduct = (product) => {
             "imageUrl": imageUrl,
             "price": price,
             "description": description,
-            "categoryIds": categoryIds
+            "categoryIds": Object.values(categoryIds).map(Number)
         }
     }).then((response) => {
         window.location = "/admin"
@@ -72,10 +68,18 @@ const createProduct = (product) => {
 
 // TODO: [1단계] 상품 관리 CRUD API에 맞게 변경
 const updateProduct = (product) => {
-    const {id} = product;
+    const {id, name, imageUrl, price, description, ...categoryIds} = product;
 
     axios.request({
-        url: '',
+        url: 'http://localhost:8080/products/' + product.id,
+        method: 'put',
+        data: {
+            "name": name,
+            "imageUrl": imageUrl,
+            "price": price,
+            "description": description,
+            "categoryIds": Object.values(categoryIds).map(Number)
+        }
     }).then((response) => {
         window.location.reload();
     }).catch((error) => {
@@ -86,7 +90,8 @@ const updateProduct = (product) => {
 // TODO: [1단계] 상품 관리 CRUD API에 맞게 변경
 const deleteProduct = (id) => {
     axios.request({
-        url: '',
+        url: 'http://localhost:8080/products/' + id,
+        method: 'delete'
     }).then((response) => {
         window.location.reload();
     }).catch((error) => {

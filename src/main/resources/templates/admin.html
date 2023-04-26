@@ -43,7 +43,7 @@
                 <img style="max-width: 100px;" th:src="${product.imageUrl}"> <!-- 상품 이미지 -->
             </td>
             <td th:text="${product.description}"></td> <!-- 상품 설명 -->
-            <td th:text="${product.categoryNames}"></td> <!-- 카테고 -->
+            <td th:text="${product.categoryNames}"></td> <!-- 카테고리 -->
             <td>
                 <button th:onclick="showEditModal([[${product}]])">수정</button>
                 <button th:onclick="deleteProduct([[${product.id}]])">삭제</button>
@@ -71,9 +71,9 @@
 
                 <h4>카테고리 (다중 선택 가능)</h4>
                 <div th:each="category : ${categories}" class="form-check">
-                    <input type="checkbox" id="categoryIds" name="categoryIds" class="form-check-input"
-                           th:value="${category.id}">
-                    <label for="categoryIds" class="form-check-lable" th:text="${category.name}"
+                    <input type="checkbox" th:id="'categoryIds'+${category.id}" th:name="'categoryIds'+${category.id}"
+                           class="form-check-input" th:value="1">
+                    <label th:for="'categoryIds'+${category.id}" class="form-check-lable" th:text="${category.name}"
                            style="display: inline-block;"></label>
                 </div>
 
